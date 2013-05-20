@@ -10,7 +10,8 @@
 
 (provide add-event-handler
          remove-event-handler
-         cancel-event)
+         cancel-event
+         call-later)
 
 
 (define-struct/contract watch
@@ -77,6 +78,14 @@
 (define/contract (cancel-event event)
                  (-> evt? void?)
   (thread-send looping-thread `(cancel ,event)))
+
+
+(define/contract (call-later handler)
+                 (-> (-> void?) void?)
+  (define (wrapper)
+    (remove-event-handler always-evt wrapper)
+    (handler))
+  (thread-send looping-thread `(add-handler ,always-evt ,wrapper)))
 
 
 ; vim:set ts=2 sw=2 et:
