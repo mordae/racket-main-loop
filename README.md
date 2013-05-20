@@ -8,6 +8,8 @@ that need to integrate into your main loop.
 ## Examples
 
 ```racket
+(require main-loop)
+
 ; Call thunk once later on.
 (call-later
   (thunk
