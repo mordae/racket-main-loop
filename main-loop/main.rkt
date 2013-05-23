@@ -82,8 +82,7 @@
                  (-> evt? void?)
   (call-with-semaphore watches-semaphore
     (thunk
-      (when (hash-has-key? watches event)
-        (hash-remove! watches event))))
+      (hash-remove! watches event)))
   (thread-send looping-thread #t))
 
 
