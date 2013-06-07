@@ -3,7 +3,8 @@
 ; Generic Main Loop For Racket
 ;
 
-(require racket/contract
+(require (rename-in ffi/unsafe (-> -->))
+         racket/contract
          racket/function
          racket/match
          racket/set)
@@ -11,7 +12,8 @@
 (provide add-event-handler
          remove-event-handler
          cancel-event
-         call-later)
+         call-later
+         bind-wrapper)
 
 
 (define-struct/contract watch
@@ -92,6 +94,13 @@
     (remove-event-handler always-evt wrapper)
     (handler))
   (add-event-handler always-evt wrapper))
+
+
+(define/contract (bind-wrapper parent procedure)
+                 (-> any/c procedure? procedure?)
+  (let ((boxee (box (lambda args (apply procedure args)))))
+    (register-finalizer parent (lambda (parent) (set-box! boxee #f)))
+    (unbox boxee)))
 
 
 ; vim:set ts=2 sw=2 et:
