@@ -13,7 +13,8 @@
          remove-event-handler
          cancel-event
          call-later
-         bind-wrapper)
+         bind-wrapper
+         retain-parent)
 
 
 (define-struct/contract watch
