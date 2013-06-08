@@ -100,8 +100,8 @@
 (define/contract (retain-parent parent object)
                  (-> any/c any/c any/c)
   (let ((boxee (box parent)))
-    (register-finalizer object (lambda (object) (set-box! boxee #f))
-    object)))
+    (register-finalizer object (lambda (object) (set-box! boxee #f)))
+    object))
 
 
 (define/contract (bind-wrapper parent procedure)
